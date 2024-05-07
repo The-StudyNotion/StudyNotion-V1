@@ -2,10 +2,10 @@
 	"name": "studynotion-backend",
 	"version": "1.0.0",
 	"description": "studynotion-backend",
-	"main": "index.js",
+	"main": "Index.js",
 	"scripts": {
-		"start": "node index.js",
-		"dev": "nodemon index.js"
+		"start": "node Index.js",
+		"dev": "nodemon Index.js"
 	},
 	"keywords": [
 		"studynotion-backend"
@@ -19,7 +19,7 @@
 		"cookie-parser": "^1.4.6",
 		"cors": "^2.8.5",
 		"crypto-random-string": "^5.0.0",
-		"dotenv": "^16.0.3",
+		"dotenv": "^16.4.5",
 		"express": "^4.18.2",
 		"express-fileupload": "^1.4.0",
 		"jsonwebtoken": "^9.0.0",

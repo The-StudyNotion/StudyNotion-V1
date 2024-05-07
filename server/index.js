@@ -1,18 +1,16 @@
-
 const express = require("express");
 const app = express();
-const userRoutes = require("./routes/user");
-const profileRoutes = require("./routes/profile");
-const courseRoutes = require("./routes/Course");
-const paymentRoutes = require("./routes/Payments");
-const contactUsRoute = require("./routes/Contact");
-const database = require("./config/database");
+const userRoutes = require("./Route/User");
+const profileRoutes = require("./Route/Profile");
+const courseRoutes = require("./Route/Course");
+const paymentRoutes = require("./Route/Payment");
+const contactUsRoute = require("./Route/Contact");
+const database = require("./Configuration/Database");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-const { cloudinaryConnect } = require("./config/cloudinary");
+const { cloudinaryConnect } = require("./Configuration/Cloudinary");
 const fileUpload = require("express-fileupload");
 const dotenv = require("dotenv");
-
 
 const PORT = process.env.PORT || 4000;
 
@@ -52,7 +50,7 @@ app.use("/api/v1/reach", contactUsRoute);
 app.get("/", (req, res) => {
 	return res.json({
 		success: true,
-		message: "Your server is up and running ...",
+		message: "Welcome To StudyNotion",
 	});
 });
 
