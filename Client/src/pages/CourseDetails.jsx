@@ -141,12 +141,12 @@ function CourseDetails() {
               className={`z-30 my-5 flex flex-col justify-center gap-4 py-5 text-lg text-richblack-5`}
             >
               <div>
-                <p className="text-4xl font-bold text-richblack-5 sm:text-[42px]">
+                <p className="text-4xl font-bold text-richblack-5 sm:text-[42px] tracking-wider lg:text-left text-center">
                   {courseName}
                 </p>
               </div>
               <p className={`text-richblack-200`}>
-                <ul style={{ listStyle: 'none', padding: 0 }}>
+                <ul style={{ listStyle: 'none', padding: 0 }} >
                   {courseDescription.split('\n').map((line, index) => (
                     <li key={index} style={{ display: 'flex', alignItems: 'flex-start' }}>
                       <span style={{ marginRight: '0.5em' }}>{index + 1}.</span>
@@ -155,7 +155,7 @@ function CourseDetails() {
                   ))}
                 </ul>
               </p>
-              <div className="text-md flex flex-wrap items-center gap-2">
+              <div className="text-md flex flex-wrap items-center gap-2 lg:justify-start justify-center">
                 <span className="text-yellow-25">{avgReviewCount}</span>
                 <RatingStars Review_Count={avgReviewCount} Star_Size={24} />
                 <span>{`(${ratingAndReviews.length} reviews)`}</span>
@@ -181,10 +181,10 @@ function CourseDetails() {
               <p className="space-x-3 pb-4 text-3xl font-semibold text-richblack-5">
                 Rs. {price}
               </p>
-              <button className="yellowButton" onClick={handleBuyCourse}>
+              <button className="yellowButton uppercase tracking-wider" onClick={handleBuyCourse}>
                 Buy Now
               </button>
-              <button className="blackButton">Add to Cart</button>
+              <button className="blackButton uppercase tracking-wider">Add to Cart</button>
             </div>
           </div>
           {/* Courses Card */}
@@ -201,9 +201,9 @@ function CourseDetails() {
         <div className="mx-auto max-w-maxContentTab lg:mx-0 xl:max-w-[810px]">
           {/* What will you learn section */}
           <div className="my-8 border border-richblack-600 p-8">
-            <p className="text-3xl font-semibold">What you'll Learn?</p>
+            <p className="text-3xl font-semibold uppercase tracking-wider">What you'll Learn?</p>
             <div className="mt-5">
-              <ul style={{ listStyle: 'none', padding: 0 }}>
+              <ul style={{ listStyle: 'none', padding: 0 }} className="leading-relaxed">
                 {whatYouWillLearn.split('\n').map((line, index) => (
                   <li key={index} style={{ display: 'flex', alignItems: 'flex-start' }}>
                     <span style={{ marginRight: '0.5em' }}>{index + 1}.</span>
@@ -217,16 +217,16 @@ function CourseDetails() {
           {/* Course Content Section */}
           <div className="max-w-[830px] ">
             <div className="flex flex-col gap-3">
-              <p className="text-[28px] font-semibold">Course Content</p>
+              <p className="text-[28px] font-semibold uppercase tracking-wider">Course Content</p>
               <div className="flex flex-wrap justify-between gap-2">
-                <div className="flex gap-2">
+                <div className="flex gap-2 tracking-wide">
                   <span>
                     {courseContent.length} {`section(s)`}
                   </span>
                   <span>
                     {totalNoOfLectures} {`lecture(s)`}
                   </span>
-                  <span>{response.data?.totalDuration} total length</span>
+                  <span>{response.data?.totalDuration}</span>
                 </div>
                 <div>
                   <button
