@@ -14,7 +14,6 @@ import { useState } from 'react'
 const Sidebar = () => {
   const { token } = useSelector(state => state.auth)
   const { user } = useSelector(state => state.profile)
-  console.log('USER',user);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -47,7 +46,7 @@ const Sidebar = () => {
         <div>
           <SidebarLink
             data={{
-              name: 'Settings',
+              name: 'Setting',
               path: '/dashboard/settings',
               icon: 'VscSettingsGear'
             }}
@@ -60,7 +59,7 @@ const Sidebar = () => {
             className='flex gap-x-2 items-center text-sm font-medium px-3 md:px-8 py-2 text-richblack-300'
           >
             <VscSignOut className='text-lg' />
-            <span className='hidden md:block' >Logout</span>
+            <span className='hidden md:block tracking-wider uppercase' >Logout</span>
           </button>
         </div>
 

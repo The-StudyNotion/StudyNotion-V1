@@ -23,7 +23,7 @@ const SidebarLink = ({ data }) => {
         </span>
 
         <Icon className='text-lg' />
-        <p className='hidden md:block'>{data.name}</p>
+        <p className='hidden md:block uppercase tracking-wider'>{data.name}</p>
       </Link>
     </div>
   )

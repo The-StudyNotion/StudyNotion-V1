@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom"
 
 import { updateProfile } from "../../../../Service/Operation/SettingsAPI"
 import IconBtn from "../../../Common/IconBtn"
+import { useState } from "react"
 
 const genders = ["Male", "Female", "Non-Binary", "Prefer not to say", "Other"]
 
@@ -12,7 +13,7 @@ export default function EditProfile() {
   const { token } = useSelector((state) => state.auth)
   const navigate = useNavigate()
   const dispatch = useDispatch()
-
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -28,171 +29,159 @@ export default function EditProfile() {
     }
   }
   return (
-    <>
+    <div>
       <form onSubmit={handleSubmit(submitProfileForm)}>
-        {/* Profile Information */}
-        <div className="my-10 flex flex-col gap-y-6 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12">
-          <h2 className="text-lg font-semibold text-richblack-5">
-            Profile Information
-          </h2>
-          <div className="flex flex-col gap-5 lg:flex-row">
-            <div className="flex flex-col gap-2 lg:w-[48%]">
-              <label htmlFor="firstName" className="lable-style">
-                First Name
+        <div className='my-5 rounded-md border border-richblack-700 bg-richblack-800 py-8 px-5 md:px-12'>
+          <h1 className='text-lg mb-6 font-semibold text-richblack-5 uppercase tracking-wider'>Profile Information</h1>
+
+          <div className='flex flex-col gap-y-6'>
+            <div className='flex flex-col md:flex-row gap-5'>
+
+              <label className='w-full' >
+                <p className='label-style uppercase tracking-wider mb-1'>First Name <span className='text-pink-100'>*</span></p>
+                <input
+                  type='text'
+                  name='firstName'
+                  placeholder='Enter first name'
+                  defaultValue={user?.firstName}
+                  className='form-style w-full placeholder:uppercase placeholder:text-sm placeholder:tracking-wider'
+                  {...register('firstName', { required: true })}
+                />
+
+                {
+                  errors.firstName && <p className='input-error-style' >Please enter your first name</p>
+                }
               </label>
-              <input
-                type="text"
-                name="firstName"
-                id="firstName"
-                placeholder="Enter first name"
-                className="form-style"
-                {...register("firstName", { required: true })}
-                defaultValue={user?.firstName}
-              />
-              {errors.firstName && (
-                <span className="-mt-1 text-[12px] text-yellow-100">
-                  Please enter your first name.
-                </span>
-              )}
+
+
+              <label className='w-full' >
+                <p className='label-style uppercase tracking-wider mb-1' >Last Name <span className='text-pink-100'>*</span></p>
+                <input
+                  type='text'
+                  name='lastName'
+                  placeholder='Enter last name'
+                  defaultValue={user?.lastName}
+                  className='form-style w-full placeholder:uppercase placeholder:text-sm placeholder:tracking-wider'
+                  {...register('lastName', { required: true })}
+                />
+
+                {
+                  errors.lastName && <p className='input-error-style' >Please enter your last name</p>
+                }
+              </label>
             </div>
-            <div className="flex flex-col gap-2 lg:w-[48%]">
-              <label htmlFor="lastName" className="lable-style">
-                Last Name
+
+            <div className='flex flex-col md:flex-row gap-5'>
+
+              <label className='w-full' >
+                <p className='label-style uppercase tracking-wider mb-1' >Date of Birth <span className='text-pink-100'>*</span></p>
+                <input
+                  type='date'
+                  name='dob'
+                  max={new Date().toISOString().split('T')[0]}
+                  placeholder='Enter first name'
+                  defaultValue={user?.profile?.dob?.split('T')[0]}
+                  className='form-style w-full '
+                  {...register('dob', {
+                    required: {
+                      value: true,
+                      message: 'Please enter your Date of Birth'
+                    },
+                    max: {
+                      value: new Date().toISOString().split('T')[0],
+                      message: 'Date of Birth cannot be in the future'
+                    }
+                  })}
+                />
+
+                {
+                  errors.dob && <p className='input-error-style' >{errors.dob.message}</p>
+                }
               </label>
-              <input
-                type="text"
-                name="lastName"
-                id="lastName"
-                placeholder="Enter first name"
-                className="form-style"
-                {...register("lastName", { required: true })}
-                defaultValue={user?.lastName}
-              />
-              {errors.lastName && (
-                <span className="-mt-1 text-[12px] text-yellow-100">
-                  Please enter your last name.
-                </span>
-              )}
+
+
+              <label className='w-full' >
+                <p className='label-style uppercase tracking-wider mb-1' >Gender <span className='text-pink-100'>*</span></p>
+                <select
+                  type='text'
+                  name='gender'
+                  className='form-style w-full'
+                  defaultValue={user?.profile?.gender}
+                  {...register('gender', { required: true })}
+                >
+
+                  {
+                    genders.map((gender, ind) => (
+                      <option className='text-richblack-5' key={ind} value={gender} > {gender} </option>
+                    ))
+                  }
+                </select>
+              </label>
+            </div>
+
+            <div className='flex flex-col md:flex-row gap-5'>
+
+              <label className='w-full' >
+                <p className='label-style uppercase tracking-wider mb-1' >Contact Number <span className='text-pink-100'>*</span></p>
+                <input
+                  type='tel'
+                  name='contactNumber'
+                  placeholder='Enter contact number'
+                  defaultValue={user?.profile?.contactNumber}
+                  className='form-style w-full placeholder:uppercase placeholder:text-sm placeholder:tracking-wider'
+                  {...register('contactNumber', {
+                    required: {
+                      value: true,
+                      message: 'Please enter your Contact Number'
+                    },
+                    maxLength: {
+                      value: 12,
+                      message: 'Invalid Contact Number'
+                    },
+                    minLength: {
+                      value: 10,
+                      message: 'Invalid Contact Number'
+                    }
+                  })}
+                />
+
+                {
+                  errors.contactNumber && <p className='input-error-style' >{errors.contactNumber.message}</p>
+                }
+              </label>
+
+
+              <label className='w-full' >
+                <p className='label-style uppercase tracking-wider mb-1' >About <span className='text-pink-100'>*</span></p>
+                <input
+                  type='text'
+                  name='about'
+                  placeholder='Enter Bio Detail'
+                  defaultValue={user?.profile?.about}
+                  className='form-style w-full placeholder:uppercase placeholder:text-sm placeholder:tracking-wider'
+                  {...register('about', { required: true })}
+                />
+
+                {
+                  errors.about && <p className='input-error-style' >Please enter your Bio Details</p>
+                }
+              </label>
             </div>
           </div>
 
-          <div className="flex flex-col gap-5 lg:flex-row">
-            <div className="flex flex-col gap-2 lg:w-[48%]">
-              <label htmlFor="dateOfBirth" className="lable-style">
-                Date of Birth
-              </label>
-              <input
-                type="date"
-                name="dateOfBirth"
-                id="dateOfBirth"
-                className="form-style"
-                {...register("dateOfBirth", {
-                  required: {
-                    value: true,
-                    message: "Please enter your Date of Birth.",
-                  },
-                  max: {
-                    value: new Date().toISOString().split("T")[0],
-                    message: "Date of Birth cannot be in the future.",
-                  },
-                })}
-                defaultValue={user?.additionalDetails?.dateOfBirth}
-              />
-              {errors.dateOfBirth && (
-                <span className="-mt-1 text-[12px] text-yellow-100">
-                  {errors.dateOfBirth.message}
-                </span>
-              )}
-            </div>
-            <div className="flex flex-col gap-2 lg:w-[48%]">
-              <label htmlFor="gender" className="lable-style">
-                Gender
-              </label>
-              <select
-                type="text"
-                name="gender"
-                id="gender"
-                className="form-style"
-                {...register("gender", { required: true })}
-                defaultValue={user?.additionalDetails?.gender}
-              >
-                {genders.map((ele, i) => {
-                  return (
-                    <option key={i} value={ele}>
-                      {ele}
-                    </option>
-                  )
-                })}
-              </select>
-              {errors.gender && (
-                <span className="-mt-1 text-[12px] text-yellow-100">
-                  Please enter your Date of Birth.
-                </span>
-              )}
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-5 lg:flex-row">
-            <div className="flex flex-col gap-2 lg:w-[48%]">
-              <label htmlFor="contactNumber" className="lable-style">
-                Contact Number
-              </label>
-              <input
-                type="tel"
-                name="contactNumber"
-                id="contactNumber"
-                placeholder="Enter Contact Number"
-                className="form-style"
-                {...register("contactNumber", {
-                  required: {
-                    value: true,
-                    message: "Please enter your Contact Number.",
-                  },
-                  maxLength: { value: 12, message: "Invalid Contact Number" },
-                  minLength: { value: 10, message: "Invalid Contact Number" },
-                })}
-                defaultValue={user?.additionalDetails?.contactNumber}
-              />
-              {errors.contactNumber && (
-                <span className="-mt-1 text-[12px] text-yellow-100">
-                  {errors.contactNumber.message}
-                </span>
-              )}
-            </div>
-            <div className="flex flex-col gap-2 lg:w-[48%]">
-              <label htmlFor="about" className="lable-style">
-                About
-              </label>
-              <input
-                type="text"
-                name="about"
-                id="about"
-                placeholder="Enter Bio Details"
-                className="form-style"
-                {...register("about", { required: true })}
-                defaultValue={user?.additionalDetails?.about}
-              />
-              {errors.about && (
-                <span className="-mt-1 text-[12px] text-yellow-100">
-                  Please enter your About.
-                </span>
-              )}
-            </div>
-          </div>
         </div>
 
-        <div className="flex justify-end gap-2">
-          <button
-            onClick={() => {
-              navigate("/dashboard/my-profile")
-            }}
-            className="cursor-pointer rounded-md bg-richblack-700 py-2 px-5 font-semibold text-richblack-50"
-          >
-            Cancel
-          </button>
-          <IconBtn type="submit" text="Save" />
+
+        <div className='flex justify-end gap-2'>
+          <button onClick={() => navigate('/dashboard/my-profile')} className={`rounded-md bg-richblack-700 lg:py-2 py-1 lg:px-5 px-2 font-semibold text-richblack-50 uppercase tracking-wider 
+          ${loading ? 'cursor-not-allowed' : 'cursor-pointer'}
+          `}>Cancel</button>
+
+          <IconBtn type={'submit'} disabled={loading} text={loading ? 'Saving...' : 'Save'} customClasses='lg:py-2 lg:px-5'/>
         </div>
+
       </form>
-    </>
+
+    </div>
   )
 }

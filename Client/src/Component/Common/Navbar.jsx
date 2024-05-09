@@ -62,7 +62,7 @@ function Navbar() {
                           : "text-richblack-25"
                       }`}
                     >
-                      <p>{link.title}</p>
+                      <p className="uppercase tracking-wider">{link.title}</p>
                       <BsChevronDown />
                       <div className="invisible absolute left-[50%] top-[50%] z-[1000] flex w-[200px] translate-x-[-50%] translate-y-[3em] flex-col rounded-lg bg-richblack-5 p-4 text-richblack-900 opacity-0 transition-all duration-150 group-hover:visible group-hover:translate-y-[1.65em] group-hover:opacity-100 lg:w-[300px]">
                         <div className="absolute left-[50%] top-0 -z-10 h-6 w-6 translate-x-[80%] translate-y-[-40%] rotate-45 select-none rounded bg-richblack-5"></div>
@@ -83,7 +83,7 @@ function Navbar() {
                                   className="rounded-lg bg-transparent py-4 pl-4 hover:bg-richblack-50"
                                   key={i}
                                 >
-                                  <p>{subLink.name}</p>
+                                  <p className="uppercase tracking-wider">{subLink.name}</p>
                                 </Link>
                               ))}
                           </>
@@ -100,7 +100,7 @@ function Navbar() {
                         matchRoute(link?.path)
                           ? "text-yellow-25"
                           : "text-richblack-25"
-                      }`}
+                      } uppercase tracking-wider`}
                     >
                       {link.title}
                     </p>

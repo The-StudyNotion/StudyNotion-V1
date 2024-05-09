@@ -10,7 +10,7 @@ const IconBtn = ({ ...btnData }) => {
         onClick={onClickHandler}
         disabled={disabled}
         type={type}
-        className={` ${customClasses} rounded-md py-2 px-5 font-semibold text-richblack-900 uppercase tracking-wider
+        className={` ${customClasses} rounded-md py-1 px-2 font-semibold text-richblack-900 uppercase tracking-wider
         ${disabled ? 'cursor-not-allowed' : 'cursor-pointer'}
         ${outline ? 'border border-yellow-50 bg-transparent' : 'bg-yellow-50'}
         `}
