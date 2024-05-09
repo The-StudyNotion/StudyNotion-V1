@@ -22,7 +22,7 @@ export default function InstructorChart({ courses }) {
 
 
   const chartDataStudents = {
-    labels: courses.map((course) => course.courseName),
+    labels: courses?.map((course) => course.courseName),
     datasets: [
       {
         data: courses.map((course) => course.totalStudentsEnrolled),
@@ -33,10 +33,10 @@ export default function InstructorChart({ courses }) {
 
 
   const chartIncomeData = {
-    labels: courses.map((course) => course.courseName),
+    labels: courses?.map((course) => course.courseName),
     datasets: [
       {
-        data: courses.map((course) => course.totalAmountGenerated),
+        data: courses?.map((course) => course.totalAmountGenerated),
         backgroundColor: generateRandomColors(courses.length),
       },
     ],
@@ -59,7 +59,7 @@ export default function InstructorChart({ courses }) {
               : "text-yellow-400"
             }`}
         >
-          Students
+          Student
         </button>
         {/* Button to switch to the "income" chart */}
         <button

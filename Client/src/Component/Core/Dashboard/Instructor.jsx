@@ -5,6 +5,7 @@ import { Link } from "react-router-dom"
 import { fetchInstructorCourses } from "../../../Service/Operation/courseDetailsAPI"
 import { getInstructorData } from "../../../Service/Operation/profileAPI"
 import InstructorChart from "./InstructorDashboard/InstructorChart"
+import Spinner from "../../Common/Spinner"
 
 export default function Instructor() {
   const { token } = useSelector((state) => state.auth)
@@ -14,11 +15,12 @@ export default function Instructor() {
   const [courses, setCourses] = useState([])
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       setLoading(true)
       const instructorApiData = await getInstructorData(token)
       const result = await fetchInstructorCourses(token)
       console.log(instructorApiData)
+      console.log('RESULT', result);
       if (instructorApiData.length) setInstructorData(instructorApiData)
       if (result) {
         setCourses(result)
@@ -39,104 +41,109 @@ export default function Instructor() {
 
   return (
     <div>
-      <div className="space-y-2">
-        <h1 className="text-2xl font-bold text-richblack-5">
-          Hi {user?.firstName} 👋
-        </h1>
-        <p className="font-medium text-richblack-200">
-          Let's start something new
-        </p>
+      <div className='space-y-2' >
+        <p className='text-richblack-5 text-2xl font-bold ' >Hi, {user.firstName} 👋 </p>
+        <p className='text-richblack-200 font-medium ' >Let's start something new</p>
       </div>
-      {loading ? (
-        <div className="spinner"></div>
-      ) : courses.length > 0 ? (
-        <div>
-          <div className="my-4 flex h-[450px] space-x-4">
-            {/* Render chart / graph */}
-            {totalAmount > 0 || totalStudents > 0 ? (
-              <InstructorChart courses={instructorData} />
-            ) : (
-              <div className="flex-1 rounded-md bg-richblack-800 p-6">
-                <p className="text-lg font-bold text-richblack-5">Visualize</p>
-                <p className="mt-4 text-xl font-medium text-richblack-50">
-                  Not Enough Data To Visualize
-                </p>
+
+      <div>
+        {
+          loading ?
+            (
+              <div className='h-[calc(100vh-10rem)] grid place-items-center' >
+                <Spinner />
               </div>
-            )}
-            {/* Total Statistics */}
-            <div className="flex min-w-[250px] flex-col rounded-md bg-richblack-800 p-6">
-              <p className="text-lg font-bold text-richblack-5">Statistics</p>
-              <div className="mt-4 space-y-4">
-                <div>
-                  <p className="text-lg text-richblack-200">Total Courses</p>
-                  <p className="text-3xl font-semibold text-richblack-50">
-                    {courses.length}
-                  </p>
+            )
+            : !instructorData || !courses.length ?
+              (
+                <div className='text-center mt-20 bg-richblack-800 px-6  py-20 rounded-md' >
+                  <p className='text-2xl font-bold text-richblack-5' >You have <span className='font-extrabold text-pink-50'>not</span> published any courses yet</p>
+                  <Link to={'/dashboard/add-course'} >
+                    <p className='mt-3  text-lg font-semibold text-yellow-50 underline' >Create a course</p>
+                  </Link>
                 </div>
+              )
+              :
+              (
                 <div>
-                  <p className="text-lg text-richblack-200">Total Students</p>
-                  <p className="text-3xl font-semibold text-richblack-50">
-                    {totalStudents}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-lg text-richblack-200">Total Income</p>
-                  <p className="text-3xl font-semibold text-richblack-50">
-                    Rs. {totalAmount}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="rounded-md bg-richblack-800 p-6">
-            {/* Render 3 courses */}
-            <div className="flex items-center justify-between">
-              <p className="text-lg font-bold text-richblack-5">Your Courses</p>
-              <Link to="/dashboard/my-courses">
-                <p className="text-xs font-semibold text-yellow-50">View All</p>
-              </Link>
-            </div>
-            <div className="my-4 flex items-start space-x-6">
-              {courses.slice(0, 3).map((course) => (
-                <div key={course._id} className="w-1/3">
-                  <img
-                    src={course.thumbnail}
-                    alt={course.courseName}
-                    className="h-[201px] w-full rounded-md object-cover"
-                  />
-                  <div className="mt-3 w-full">
-                    <p className="text-sm font-medium text-richblack-50">
-                      {course.courseName}
-                    </p>
-                    <div className="mt-1 flex items-center space-x-2">
-                      <p className="text-xs font-medium text-richblack-300">
-                        {course.studentsEnroled.length} students
-                      </p>
-                      <p className="text-xs font-medium text-richblack-300">
-                        |
-                      </p>
-                      <p className="text-xs font-medium text-richblack-300">
-                        Rs. {course.price}
-                      </p>
+                  {/* Pie charts and Stats */}
+                  <div className='flex flex-col md:flex-row gap-5 my-10' >
+                    {/* Pie charts */}
+                    <div className='w-full' >
+                      {
+                        (totalAmount > 0 || totalStudents > 0)
+                          ?
+                          (
+                            <div className='h-full' >
+                              <InstructorChart courses={instructorData} />
+                            </div>
+                          )
+                          :
+                          (
+                            <div className='bg-richblack-800 h-full  rounded-md p-6' >
+                              <p className='text-lg text-richblack-5 font-bold' >Visualize</p>
+                              <p className='mt-4 text-xl text-richblack-200 font-medium ' >Not Enough Data To Visualize</p>
+                            </div>
+                          )
+                      }
+                    </div>
+                    {/* Statistics */}
+                    <div className='min-h-fit min-w-[250px] rounded-md bg-richblack-800 p-6' >
+                      <p className='text-lg font-bold text-richblack-5' >Statistics</p>
+
+                      <div className='flex flex-col gap-4 mt-4 mb-4' >
+                        <div>
+                          <p className='text-lg text-richblack-200' >Total Courses</p>
+                          <p className='text-3xl font-semibold text-richblack-50' >{courses.length}</p>
+                        </div>
+
+                        <div>
+                          <p className='text-lg text-richblack-200'>Total Students</p>
+                          <p className='text-3xl font-semibold text-richblack-50'>{totalStudents}</p>
+                        </div>
+
+                        <div>
+                          <p className='text-lg text-richblack-200'>Total Income</p>
+                          <p className='text-3xl font-semibold text-richblack-50'>₹ {totalAmount}</p>
+                        </div>
+                      </div>
                     </div>
                   </div>
+
+                  {/* Published Courses */}
+                  <div className='w-full rounded-md bg-richblack-800 p-6' >
+                    <div className='flex justify-between items-center' >
+                      <p className='text-richblack-5 text-lg font-bold' >Your Published Courses</p>
+                      <Link to={'/dashboard/my-courses'} >
+                        <div className=' text-yellow-50 text-xs font-semibold' >
+                          View All
+                        </div>
+                      </Link>
+                    </div>
+
+                    <div className='flex flex-col md:flex-row gap-x-5 gap-y-7 my-4' >
+                      {
+                        courses.slice(0, 3).map((course, ind) => (
+                          <div key={ind} className='w-full md:w-1/3' >
+                            <img
+                              src={course.thumbnail}
+                              alt={course.courseName}
+                              className='h-[200px] w-full rounded-md object-cover'
+                            />
+
+                            <p className='mt-3 text-sm font-medium text-richblack-50' > {course.courseName} </p>
+
+                            <p className='mt-1 text-xs font-medium text-richblack-300' >{course.studentsEnroled.length} students | ₹ {course.price}</p>
+                          </div>
+                        ))
+                      }
+                    </div>
+                  </div>
+
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div className="mt-20 rounded-md bg-richblack-800 p-6 py-20">
-          <p className="text-center text-2xl font-bold text-richblack-5">
-            You have not created any courses yet
-          </p>
-          <Link to="/dashboard/add-course">
-            <p className="mt-1 text-center text-lg font-semibold text-yellow-50">
-              Create a course
-            </p>
-          </Link>
-        </div>
-      )}
+              )
+        }
+      </div>
     </div>
   )
 }
