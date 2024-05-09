@@ -1,9 +1,9 @@
 import React from "react"
 
-import Footer from "../components/Common/Footer"
-import ReviewSlider from "../components/Common/ReviewSlider"
-import ContactDetails from "../components/core/ContactUsPage/ContactDetails"
-import ContactForm from "../components/core/ContactUsPage/ContactForm"
+import Footer from "../Component/Common/Footer"
+import ReviewSlider from "../Component/Common/ReviewSlider"
+import ContactDetails from "../Component/Core/ContactUsPage/ContactDetails"
+import ContactForm from "../Component/Core/ContactUsPage/ContactForm"
 
 const Contact = () => {
   return (

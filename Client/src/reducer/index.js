@@ -1,10 +1,10 @@
 import { combineReducers } from "@reduxjs/toolkit"
 
-import authReducer from "../slices/authSlice"
-import cartReducer from "../slices/cartSlice"
-import courseReducer from "../slices/courseSlice"
-import profileReducer from "../slices/profileSlice"
-import viewCourseReducer from "../slices/viewCourseSlice"
+import authReducer from "../Slice/authSlice"
+import cartReducer from "../Slice/cartSlice"
+import courseReducer from "../Slice/courseSlice"
+import profileReducer from "../Slice/profileSlice"
+import viewCourseReducer from "../Slice/viewCourseSlice"
 
 const rootReducer = combineReducers({
   auth: authReducer,

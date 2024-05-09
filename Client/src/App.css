@@ -99,7 +99,7 @@ details > summary::-webkit-details-marker {
   /* backdrop-filter: blur(26px); */
 }
 .homepage_bg {
-  background: url("../src/assets/Images/bghome.svg");
+  background: url("../src/Asset/Image/bghome.svg");
   /* background-size: contain; */
 }
 

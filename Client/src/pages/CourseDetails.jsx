@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from "react"
 import { BiInfoCircle } from "react-icons/bi"
 import { HiOutlineGlobeAlt } from "react-icons/hi"
-import { ReactMarkdown } from "react-markdown/lib/react-markdown"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
-
-import ConfirmationModal from "../components/Common/ConfirmationModal"
-import Footer from "../components/Common/Footer"
-import RatingStars from "../components/Common/RatingStars"
-import CourseAccordionBar from "../components/core/Course/CourseAccordionBar"
-import CourseDetailsCard from "../components/core/Course/CourseDetailsCard"
-import { formatDate } from "../services/formatDate"
-import { fetchCourseDetails } from "../services/operations/courseDetailsAPI"
-import { BuyCourse } from "../services/operations/studentFeaturesAPI"
-import GetAvgRating from "../utils/avgRating"
+import ConfirmationModal from "../Component/Common/ConfirmationModal"
+import Footer from "../Component/Common/Footer"
+import RatingStars from "../Component/Common/RatingStars"
+import CourseAccordionBar from "../Component/Core/Course/CourseAccordionBar"
+import CourseDetailsCard from "../Component/Core/Course/CourseDetailsCard"
+import { formatDate } from "../Service/formatDate"
+import { fetchCourseDetails } from "../Service/Operation/courseDetailsAPI"
+import { BuyCourse } from "../Service/Operation/studentFeaturesAPI"
+import GetAvgRating from "../Util/avgRating"
 import Error from "./Error"
 
 function CourseDetails() {
@@ -24,19 +22,19 @@ function CourseDetails() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  // Getting courseId from url parameter
-  const { courseId } = useParams()
-  // console.log(`course id: ${courseId}`)
 
-  // Declear a state to save the course details
+  const { courseId } = useParams()
+
+
+
   const [response, setResponse] = useState(null)
   const [confirmationModal, setConfirmationModal] = useState(null)
   useEffect(() => {
-    // Calling fetchCourseDetails fucntion to fetch the details
-    ;(async () => {
+
+    ; (async () => {
       try {
         const res = await fetchCourseDetails(courseId)
-        // console.log("course details res: ", res)
+
         setResponse(res)
       } catch (error) {
         console.log("Could not fetch Course Details")
@@ -44,21 +42,21 @@ function CourseDetails() {
     })()
   }, [courseId])
 
-  // console.log("response: ", response)
 
-  // Calculating Avg Review count
+
+
   const [avgReviewCount, setAvgReviewCount] = useState(0)
   useEffect(() => {
     const count = GetAvgRating(response?.data?.courseDetails.ratingAndReviews)
     setAvgReviewCount(count)
   }, [response])
-  // console.log("avgReviewCount: ", avgReviewCount)
 
-  // // Collapse all
-  // const [collapse, setCollapse] = useState("")
+
+
+
   const [isActive, setIsActive] = useState(Array(0))
   const handleActive = (id) => {
-    // console.log("called", id)
+
     setIsActive(
       !isActive.includes(id)
         ? isActive.concat([id])
@@ -66,7 +64,7 @@ function CourseDetails() {
     )
   }
 
-  // Total number of lectures
+
   const [totalNoOfLectures, setTotalNoOfLectures] = useState(0)
   useEffect(() => {
     let lectures = 0
@@ -117,7 +115,7 @@ function CourseDetails() {
   }
 
   if (paymentLoading) {
-    // console.log("payment loading")
+
     return (
       <div className="grid min-h-[calc(100vh-3.5rem)] place-items-center">
         <div className="spinner"></div>
@@ -205,14 +203,14 @@ function CourseDetails() {
           <div className="my-8 border border-richblack-600 p-8">
             <p className="text-3xl font-semibold">What you'll Learn?</p>
             <div className="mt-5">
-            <ul style={{ listStyle: 'none', padding: 0 }}>
+              <ul style={{ listStyle: 'none', padding: 0 }}>
                 {whatYouWillLearn.split('\n').map((line, index) => (
                   <li key={index} style={{ display: 'flex', alignItems: 'flex-start' }}>
                     <span style={{ marginRight: '0.5em' }}>{index + 1}.</span>
                     <span>{line.trim().substring(line.indexOf('.') + 1).trim()}</span>
                   </li>
-                  ))}
-                </ul>
+                ))}
+              </ul>
             </div>
           </div>
 

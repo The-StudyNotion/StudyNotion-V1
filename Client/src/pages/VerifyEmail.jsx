@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
 import { RxCountdownTimer } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
-import { sendOtp, signUp } from "../services/operations/authAPI";
+import { sendOtp, signUp } from "../Service/Operation/authAPI";
 import { useNavigate } from "react-router-dom";
 
 function VerifyEmail() {
@@ -14,11 +14,11 @@ function VerifyEmail() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Only allow access of this route when user has filled the signup form
+
     if (!signupData) {
       navigate("/signup");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const handleVerifyAndSignup = (e) => {

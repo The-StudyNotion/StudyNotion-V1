@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 
-// import CourseCard from "../components/Catalog/CourseCard"
-// import CourseSlider from "../components/Catalog/CourseSlider"
-import Footer from "../components/Common/Footer"
-import Course_Card from "../components/core/Catalog/Course_Card"
-import Course_Slider from "../components/core/Catalog/Course_Slider"
-import { apiConnector } from "../services/apiConnector"
-import { categories } from "../services/apis"
-import { getCatalogPageData } from "../services/operations/pageAndComponntDatas"
+
+
+import Footer from "../Component/Common/Footer"
+import Course_Card from "../Component/Core/Catalog/Course_Card"
+import Course_Slider from "../Component/Core/Catalog/Course_Slider"
+import { apiConnector } from "../Service/apiConnector"
+import { categories } from "../Service/apis"
+import { getCatalogPageData } from "../Service/Operation/pageAndComponntDatas"
 import Error from "./Error"
 
 function Catalog() {
@@ -18,9 +18,9 @@ function Catalog() {
   const [active, setActive] = useState(1)
   const [catalogPageData, setCatalogPageData] = useState(null)
   const [categoryId, setCategoryId] = useState("")
-  // Fetch All Categories
+
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       try {
         const res = await apiConnector("GET", categories.CATEGORIES_API)
         const category_id = res?.data?.data?.filter(
@@ -34,7 +34,7 @@ function Catalog() {
   }, [catalogName])
   useEffect(() => {
     if (categoryId) {
-      ;(async () => {
+      ; (async () => {
         try {
           const res = await getCatalogPageData(categoryId)
           setCatalogPageData(res)
@@ -81,21 +81,19 @@ function Catalog() {
         <div className="section_heading">Courses to get you started</div>
         <div className="my-4 flex border-b border-b-richblack-600 text-sm">
           <p
-            className={`px-4 py-2 ${
-              active === 1
-                ? "border-b border-b-yellow-25 text-yellow-25"
-                : "text-richblack-50"
-            } cursor-pointer`}
+            className={`px-4 py-2 ${active === 1
+              ? "border-b border-b-yellow-25 text-yellow-25"
+              : "text-richblack-50"
+              } cursor-pointer`}
             onClick={() => setActive(1)}
           >
             Most Populer
           </p>
           <p
-            className={`px-4 py-2 ${
-              active === 2
-                ? "border-b border-b-yellow-25 text-yellow-25"
-                : "text-richblack-50"
-            } cursor-pointer`}
+            className={`px-4 py-2 ${active === 2
+              ? "border-b border-b-yellow-25 text-yellow-25"
+              : "text-richblack-50"
+              } cursor-pointer`}
             onClick={() => setActive(2)}
           >
             New

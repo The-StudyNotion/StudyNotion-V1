@@ -4,7 +4,7 @@ import { BiArrowBack } from "react-icons/bi"
 import { useDispatch, useSelector } from "react-redux"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 
-import { resetPassword } from "../services/operations/authAPI"
+import { resetPassword } from "../Service/Operation/authAPI"
 
 function UpdatePassword() {
   const navigate = useNavigate()

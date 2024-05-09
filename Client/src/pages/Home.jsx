@@ -1,19 +1,19 @@
-// Icons Import
+
 import { FaArrowRight } from "react-icons/fa"
 import { Link } from "react-router-dom"
 
-// Image and Video Import
-import Banner from "../assets/Images/banner.mp4"
-// Component Imports
-import Footer from "../components/Common/Footer"
-import ReviewSlider from "../components/Common/ReviewSlider"
-import CTAButton from "../components/core/HomePage/Button"
-import CodeBlocks from "../components/core/HomePage/CodeBlocks"
-import ExploreMore from "../components/core/HomePage/ExploreMore"
-import HighlightText from "../components/core/HomePage/HighlightText"
-import InstructorSection from "../components/core/HomePage/InstructorSection"
-import LearningLanguageSection from "../components/core/HomePage/LearningLanguageSection"
-import TimelineSection from "../components/core/HomePage/Timeline"
+
+import Banner from "../Asset/Image/banner.mp4"
+
+import Footer from "../Component/Common/Footer"
+import ReviewSlider from "../Component/Common/ReviewSlider"
+import CTAButton from "../Component/Core/HomePage/Button"
+import CodeBlocks from "../Component/Core/HomePage/CodeBlocks"
+import ExploreMore from "../Component/Core/HomePage/ExploreMore"
+import HighlightText from "../Component/Core/HomePage/HighlightText"
+import InstructorSection from "../Component/Core/HomePage/InstructorSection"
+import LearningLanguageSection from "../Component/Core/HomePage/LearningLanguageSection"
+import TimelineSection from "../Component/Core/HomePage/Timeline"
 
 function Home() {
   return (
