@@ -1,5 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
 import { Table, Tbody, Td, Th, Thead, Tr } from "react-super-responsive-table"
+import { convertSecondsToDuration } from "../../../../Util/secToDuration"
+import { setCourse, setEditCourse } from "../../../../Slice/courseSlice"
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css"
 import { useState } from "react"
 import { FaCheck } from "react-icons/fa"
@@ -15,7 +17,6 @@ import {
 } from "../../../../Service/Operation/courseDetailsAPI"
 import { COURSE_STATUS } from "../../../../Util/constants"
 import ConfirmationModal from "../../../Common/ConfirmationModal"
-import { convertSecondsToDuration } from "../../../../Util/secToDuration"
 
 export default function CoursesTable({ courses, setCourses }) {
   const dispatch = useDispatch()
@@ -31,19 +32,23 @@ export default function CoursesTable({ courses, setCourses }) {
     const result = await fetchInstructorCourses(token)
     if (result) {
       setCourses(result)
-      console.log(result)
     }
     setConfirmationModal(null)
     setLoading(false)
   }
 
+  if (loading) {
+    return (
+      <div className="custom-loader"></div>
+    )
+  }
 
 
   return (
     <>
-      <Table className="rounded-xl border border-richblack-800 ">
-        <Thead>
-          <Tr className="flex gap-x-10 rounded-t-md border-b border-b-richblack-800 px-6 py-2">
+      <Table className="rounded-xl border border-richblack-800">
+        <Thead >
+          <Tr className="flex gap-x-10 rounded-t-md border-b border-b-richblack-800 px-6 py-2 text-richblack-100">
             <Th className="flex-1 text-left text-sm font-medium uppercase text-richblack-100">
               Courses
             </Th>
@@ -54,7 +59,7 @@ export default function CoursesTable({ courses, setCourses }) {
               Price
             </Th>
             <Th className="text-left text-sm font-medium uppercase text-richblack-100">
-              Actions
+              Action
             </Th>
           </Tr>
         </Thead>
@@ -69,38 +74,39 @@ export default function CoursesTable({ courses, setCourses }) {
           ) : (
             courses?.map((course) => (
               <Tr
-                key={course._id}
-                className="flex gap-x-10 border-b border-richblack-800 px-6 py-8"
+                key={course?._id}
+                className="flex gap-x-10 border-b border-richblack-800 px-6 py-8 gap-4"
               >
-                <Td className="flex flex-1 gap-x-4">
+                <Td colSpan={1} className="flex flex-1 gap-x-4 p-3">
                   <img
                     src={course?.thumbnail}
                     alt={course?.courseName}
-                    className="h-[148px] w-[220px] rounded-lg object-cover"
+                    className="md:h-[148px] md:w-[220px] aspect-video rounded-lg object-cover"
                   />
-                  <div className="flex flex-col justify-between">
-                    <p className="text-lg font-semibold text-richblack-5">
+                  <div className="flex flex-col gap-1 justify-between">
+                    <p className="text-lg font-semibold text-richblack-5 mt-3 uppercase truncate tracking-wide">
                       {course.courseName}
                     </p>
-                    <p className="text-xs text-richblack-300">
-                      {course.courseDescription.split(" ").length >
-                        TRUNCATE_LENGTH
-                        ? course.courseDescription
-                          .split(" ")
-                          .slice(0, TRUNCATE_LENGTH)
-                          .join(" ") + "..."
-                        : course.courseDescription}
-                    </p>
-                    <p className="text-[12px] text-white">
-                      Created: {formatDate(course.createdAt)}
+                    <ul style={{ listStyle: 'none', padding: 0 }} className="tracking-wider">
+                      {course.courseDescription.split('\n').splice(0, 1).map((line, index) => (
+                        <li key={index} style={{ display: 'flex', alignItems: 'flex-start' }} className="text-xs text-richblack-300">
+                          <span style={{ marginRight: '0.5em' }}>{index + 1}.</span>
+                          <span>{line.trim().substring(line.indexOf('.') + 1).trim()}</span>
+                        </li>
+                      ))}
+                    </ul>
+
+
+                    <p className="text-[12px] text-white tracking-widest uppercase lg:text-left text-center">
+                      Created: {formatDate(course?.createdAt || course?.updatedAt)}
                     </p>
                     {course.status === COURSE_STATUS.DRAFT ? (
-                      <p className="flex w-fit flex-row items-center gap-2 rounded-full bg-richblack-700 px-2 py-[2px] text-[12px] font-medium text-pink-100">
+                      <p className="flex w-fit flex-row items-center gap-2 rounded-full bg-richblack-700 px-2 py-[2px] text-[12px] font-medium text-pink-100 uppercase tracking-wider">
                         <HiClock size={14} />
                         Drafted
                       </p>
                     ) : (
-                      <p className="flex w-fit flex-row items-center gap-2 rounded-full bg-richblack-700 px-2 py-[2px] text-[12px] font-medium text-yellow-100">
+                      <p className="flex w-fit flex-row items-center gap-2 rounded-full bg-richblack-700 px-2 py-[2px] text-[12px] font-medium text-yellow-100 uppercase tracking-wider">
                         <div className="flex h-3 w-3 items-center justify-center rounded-full bg-yellow-100 text-richblack-700">
                           <FaCheck size={8} />
                         </div>
@@ -109,8 +115,7 @@ export default function CoursesTable({ courses, setCourses }) {
                     )}
                   </div>
                 </Td>
-                <Td className="text-sm font-medium text-richblack-100">
-                  {console.log(course)}
+                <Td className="text-sm font-medium text-richblack-100 mb-1 tracking-wider uppercase">
                   {course?.courseContent?.reduce((acc, sec) => {
                     sec?.subSection?.forEach(sub => {
                       acc += parseFloat(sub?.timeDuration) || 0;
@@ -118,17 +123,18 @@ export default function CoursesTable({ courses, setCourses }) {
                     return convertSecondsToDuration(acc);
                   }, 0)}
                 </Td>
-                <Td className="text-sm font-medium text-richblack-100">
+
+                <Td className="text-sm font-medium text-richblack-100 mb-1 tracking-wider uppercase">
                   ₹{course.price}
                 </Td>
-                <Td className="text-sm font-medium text-richblack-100 ">
+                <Td className="text-sm font-medium text-richblack-100 tracking-wider uppercase">
                   <button
                     disabled={loading}
                     onClick={() => {
-                      navigate(`/dashboard/edit-course/${course._id}`)
+                      navigate(`/dashboard/edit-course/${course._id}`);
                     }}
                     title="Edit"
-                    className="px-2 transition-all duration-200 hover:scale-110 hover:text-caribbeangreen-300"
+                    className="pr-2 transition-all duration-200 hover:scale-110 hover:text-caribbeangreen-300 mr- mb-"
                   >
                     <FiEdit2 size={20} />
                   </button>
