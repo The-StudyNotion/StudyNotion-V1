@@ -15,21 +15,30 @@ export default function Cart() {
     )
 
   return (
-    <>
-      <h1 className="mb-14 text-3xl font-medium text-richblack-5">Cart</h1>
-      <p className="border-b border-b-richblack-400 pb-2 font-semibold text-richblack-400">
-        {totalItems} Courses in Cart
-      </p>
-      {total > 0 ? (
-        <div className="mt-8 flex flex-col-reverse items-start gap-x-10 gap-y-6 lg:flex-row">
-          <RenderCartCourses />
-          <RenderTotalAmount />
+    <div>
+
+      <div className='bg-richblack-900 text-white'>
+        <h2 className=' text-3xl font-medium text-richblack-5 mb-5 md:mb-10' >Cart</h2>
+        <p className='font-semibold text-richblack-400 border-b border-richblack-400 pb-2' >{totalItems} Courses in Cart</p>
+
+        <div>
+          {
+            !total ?
+              (
+                <div>
+                  <p className=' text-3xl text-center text-richblack-100 mt-14' >Your cart is empty</p>
+                </div>
+              )
+              :
+              (
+                <div className='flex flex-col-reverse lg:flex-row items-start mt-8 gap-x-10 gap-y-6' >
+                  <RenderCartCourses />
+                  <RenderTotalAmount />
+                </div>
+              )
+          }
         </div>
-      ) : (
-        <p className="mt-14 text-center text-3xl text-richblack-100">
-          Your cart is empty
-        </p>
-      )}
-    </>
+      </div>
+    </div>
   )
 }
