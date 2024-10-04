@@ -7,9 +7,9 @@ import { useEffect } from 'react';
 import IconBtn from "../../Common/IconBtn"
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md'
-import { FaAngleDoubleRight } from 'react-icons/fa'
 
 const VideoDetailsSidebar = ({ setReviewModal }) => {
+  console.log("HII", setReviewModal);
   const [_, setActiveStatus] = useState("");
   const [videoActive, setVideoActive] = useState("");
   const { courseId, sectionId, subsectionId } = useParams();
@@ -43,7 +43,10 @@ const VideoDetailsSidebar = ({ setReviewModal }) => {
                   navigate(`/dashboard/enrolled-courses`);
                 }} />
               </div>
-              <IconBtn text={"Review"} onclick={() => { setReviewModal(true) }} />
+              <div onClick={() => setReviewModal(true)} >
+                <IconBtn text={"Review"} />
+              </div>
+
             </div>
             <div className='flex flex-col'>
               <p>{courseEntireData?.courseName}</p>

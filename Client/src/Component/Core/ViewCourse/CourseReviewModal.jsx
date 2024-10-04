@@ -47,7 +47,7 @@ export default function CourseReviewModal({ setReviewModal }) {
       <div className="my-10 w-11/12 max-w-[700px] rounded-lg border border-richblack-400 bg-richblack-800">
         {/* Modal Header */}
         <div className="flex items-center justify-between rounded-t-lg bg-richblack-700 p-5">
-          <p className="text-xl font-semibold text-richblack-5">Add Review</p>
+          <p className="text-xl font-semibold text-richblack-5 uppercase">Add Review</p>
           <button onClick={() => setReviewModal(false)}>
             <RxCross2 className="text-2xl text-richblack-5" />
           </button>
@@ -96,14 +96,16 @@ export default function CourseReviewModal({ setReviewModal }) {
                 </span>
               )}
             </div>
-            <div className="mt-6 flex w-11/12 justify-end gap-x-2">
+            <div className="mt-6 flex w-11/12 justify-end gap-x-2 items-baseline">
               <button
                 onClick={() => setReviewModal(false)}
-                className={`flex cursor-pointer items-center gap-x-2 rounded-md bg-richblack-300 py-[8px] px-[20px] font-semibold text-richblack-900`}
+                className={`flex cursor-pointer items-center gap-x-2 rounded-md bg-richblack-300 py-[4px] px-[20px] font-semibold text-richblack-900 uppercase`}
               >
                 Cancel
               </button>
-              <IconBtn text="Save" />
+              <button>
+                <IconBtn text="Save" />
+              </button>
             </div>
           </form>
         </div>
