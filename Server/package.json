@@ -10,7 +10,7 @@
 	"keywords": [
 		"studynotion-backend"
 	],
-	"author": "Saikat Mukherjee",
+	"author": "Hindol Roy",
 	"license": "ISC",
 	"dependencies": {
 		"bcrypt": "^5.1.0",
