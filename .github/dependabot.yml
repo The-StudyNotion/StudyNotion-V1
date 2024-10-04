@@ -1,10 +1,9 @@
 version: 2
 updates:
   - package-ecosystem: "npm"  
-    directory: "/Client"      
+    directory: "/"             # Using root for both Client and Server
     schedule:
-      interval: "weekly"      
-  - package-ecosystem: "npm"  
-    directory: "/Server"      
-    schedule:
-      interval: "weekly"      
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "deps"
