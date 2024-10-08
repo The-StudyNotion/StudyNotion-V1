@@ -176,7 +176,7 @@ function Navbar() {
                     Log In
                   </div>
                 </Link>
-              // )}
+              )}is 
 
               {token === null && (
                 <Link to={"/signup"} onClick={() => setIsMenuModalOpen(false)}>

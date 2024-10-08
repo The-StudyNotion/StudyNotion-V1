@@ -30,13 +30,16 @@ exports.createCategory = async (req, res) => {
 
 exports.showAllCategories = async (req, res) => {
   try {
-    const allCategorys = await Category.find();
+    const allCategories = await Category.find().populate("courses");
+    const categoriesWithPublishedCourses = allCategories.filter((category) =>
+      category.courses.some((course) => course.status === "Published")
+    );
     res.status(200).json({
       success: true,
-      data: allCategorys,
+      data: categoriesWithPublishedCourses,
     });
   } catch (error) {
-    return res.status(500).json({
+    res.status(500).json({
       success: false,
       message: error.message,
     });
@@ -54,8 +57,6 @@ exports.categoryPageDetails = async (req, res) => {
         populate: "ratingAndReviews",
       })
       .exec();
-
-    console.log("SELECTED COURSE", selectedCategory);
 
     if (!selectedCategory) {
       console.log("Category not found.");
